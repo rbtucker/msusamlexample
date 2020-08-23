@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="4.0" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    
+    <!-- IDP interface information -->
+    <context-param>
+        <param-name>relaying.party.identifier</param-name>
+        <param-value>https://rbtdev:8443/msusaml</param-value>
+    </context-param>
+    <context-param>
+        <param-name>saml.assertion.handler.url</param-name>
+        <param-value>https://rbtdev:8443/msusaml/auth</param-value>
+    </context-param>
+ 
+    <listener>
+        <listener-class>edu.msu.saml.AppContextListener</listener-class>
+    </listener>
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>edu.msu.saml.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <servlet>
+        <servlet-name>AuthServlet</servlet-name>
+        <servlet-class>edu.msu.saml.AuthServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AuthServlet</servlet-name>
+        <url-pattern>/auth</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>edu.msu.saml.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+</web-app>
